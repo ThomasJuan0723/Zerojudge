@@ -1,0 +1,32 @@
+// E558
+// 對於正整數N，N的digit-sum定義為N本身及其所有位數數字的總和。
+   當M是N的digit-sum時，我們稱N為M的generator。
+   例如：245的數字總和為256 (= 245 + 2 + 4 + 5)。 因此，245是256的generator。
+   不過，有些數字沒有任何generator，而有些數字有多個generator。
+   例如：216的generator是198和207。
+   你將寫一個程式來查找給定整數的最小generator。
+---------------------------------------------------------------------
+#include <iostream>
+using namespace std;
+
+int t[100001] = { 0 };
+int main() {
+    //查詢表製作
+    for (int n = 1; n <= 100000; n++) {
+        int y = n, x = n;
+        while (x > 0) {
+            y = y + x % 10;
+            x = x / 10;
+        }
+        if (y > 100000) continue;
+        if (t[y] == 0)  t[y] = n;
+    }
+    //解題
+    int T, m;
+    cin >> T;
+    while (T--) {
+        cin >> m;
+        cout << t[m] << "\n";
+    }
+    return 0;
+}
