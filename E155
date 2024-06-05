@@ -1,0 +1,31 @@
+// E155
+// 給你一副照順序放好的紙牌，其中卡片的編號從1~n，且1號排在最上面，n號牌在最底下。
+   只要這副牌還有兩張以上，你就必須照以下的規則操作：
+   丟掉最上面的那張牌，然後把目前最上面的那張牌放到牌堆的最下面。
+   你的工作是找出每張牌被丟掉的順序，以及最後剩下的那張牌。
+-----------------------------------------------------------------------
+#include<iostream>
+#include<queue>
+using namespace std;
+
+int main() {
+    int n;
+    while (cin >> n && n) {
+        //準備卡牌堆
+        queue<int> q;
+        for (int i = 1; i <= n; i++)    q.push(i);
+        //依照規則進行處理
+        cout << "Discarded cards: ";
+        bool first = true; //是否第一次丟卡的開關
+        while (q.size() > 1) {
+            //丟牌堆第一張卡
+            if (first)   first = false;
+            else         cout << ", ";
+            cout << q.front(); q.pop();
+            //把牌堆第一張卡放到卡堆最後 
+            q.push(q.front()); q.pop();
+        }
+        cout << "\n";
+        cout << "Remaining card: " << q.front() << "\n";
+    }
+}
