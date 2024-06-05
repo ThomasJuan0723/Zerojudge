@@ -1,0 +1,47 @@
+// h083
+// 占卜籤筒有m支籤，每一支籤為一個由英文小寫字母組成的字串。從籤筒內抽出兩支籤，若將這兩支籤上的字串S和T 
+   連接起來形成的字串可以將該字串拆成左右兩半並且內容一樣，則抽到聖筊代表神明同意，否則神明不同意或是沒回答。
+   例如抽出的兩支籤上的字串分別為 piep 和 ie，則相連接起來的字串為 piepie 可以拆分左右兩半為相同的字串 pie 和 pie，
+   但抽出的兩支籤為 foo 和 bar 時則不滿足條件。
+   神奇的是，若抽到的兩支籤S和T為聖筊，則不管是將T接在S後面或是順序反過來接起來，都可以是聖筊，再次說明了這兩支籤有著某種神秘力量在祝福著抽到的幸運人。
+   例如 piep 和 ie 不管是使用 piepie 或是 iepiep 都可以拆分成兩個一樣的字串。
+   詢問籤筒內這m支籤，有幾個 pair 可以形成聖筊。相同的兩支籤組合計算一次即可。
+-------------------------------------------------------------
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+using namespace std;
+#define ALL(x) x.begin(), x.end()
+
+int main() {
+    //宣告籤筒 並 把讀取的籤放入籤筒
+    vector<string> v;  // 宣告籤筒
+    int m;
+    cin >> m;    // 讀取 籤 的數量
+    while (m--) {
+        string s;
+        cin >> s;
+        v.push_back(s);  // 把 籤 放入 籤筒
+    }
+    // 檢查 聖茭 的數量
+    sort(ALL(v));  // 把籤筒的籤進行排序(binary_search使用)
+    int ans = 0;  // 紀錄 聖筊 的數量
+    for (auto s : v) {
+        // 先把 籤 上面的字串分成[A][B][C]三段
+        int len = s.size(); // 取得 籤上面字串 的長度
+        for (int i = 1; i <= len / 2; i++) {
+            string sa = s.substr(0, i);        // [A]字串
+            string sc = s.substr(len - i, i);  // [C]字串
+            // 聖筊條件1: [A] == [C]
+            if (sa == sc) {
+                // 聖筊條件2: [B]字串等於籤任一隻籤
+                string sb = s.substr(i, len - 2 * i);  // [B]字串
+                if (binary_search(ALL(v), sb))
+                    ans++;   // 聖筊數量+1
+            }
+        }
+    }
+    cout << ans;
+    return 0;
+}
