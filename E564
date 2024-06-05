@@ -1,0 +1,53 @@
+// e564
+// 在Team Queue中，每個元素都屬於一個Team。如果某個元素進入Queue，它將首先從頭到尾搜索Queue，以檢查其teammates(同一Team的元素)是否已經在Queue中。
+   如果是，它將排在其Team的最後一個。如果不是，它將排在Queue最後面。
+   Dequeuing的方式與普通Queue中一樣：元素按照在Team Queue中出現的順序從頭到尾進行處理。
+   您的任務是寫一個程式模擬Team Queue。
+-----------------------------------------------------------------
+#include<iostream>
+#include<string>
+#include<map>
+#include<queue>
+using namespace std;
+int main() {
+    //前置宣告
+    int t, n, x;    //t: 團隊數量; n: 團隊成員數; x: 成員編號
+    int t0;            //處理當下成員團隊編號
+    int kase = 0;    //印出結果 Scenario # 的編號
+    //開始處理 團體佇列
+    while (cin >> t && t) {    
+        //team.first: 團隊成員; team.second: 成員所屬團隊編號
+        map<int, int> team;
+        //給予所有成員所屬的團隊編號
+        for (int i = 0; i < t; i++) {
+            cin >> n;
+            while (n--) {
+                cin >> x;
+                team[x] = i;
+            }
+        }
+        //ENQUEUE & DEQUEUE 處理
+        queue<int> tqueue;            //正在佇列中的團隊編號
+        queue<int> equeue[1000];    //正在佇列中的成員
+        printf("Scenario #%d\n", ++kase);    //印出Scenario #
+        string cmd;
+        while (cin >> cmd && cmd != "STOP") {
+            if (cmd == "ENQUEUE") {
+                cin >> x;
+                t0 = team[x];    //取得成員x的所屬團隊編號
+                if (equeue[t0].empty())        //檢查團隊成員是否為首位進入佇列的成員
+                    tqueue.push(t0);        //團隊編號加入佇列
+                equeue[t0].push(x);            //成員加入佇列
+            }
+            else {    //cmd == DEQUEUE
+                t0 = tqueue.front();        //取得離開成員的所屬團隊編號
+                cout << equeue[t0].front() << "\n"; //印出要離開佇列的成員
+                equeue[t0].pop();            //刪除離開佇列的成員
+                if (equeue[t0].empty())        //檢查離開成員的所屬團隊是否沒人在佇列
+                    tqueue.pop();            //刪除該團隊編號
+            }
+        }
+        cout << "\n";
+    }
+
+}
