@@ -1,0 +1,23 @@
+// C054
+// 輸入說明
+   輸入包含許多列，每列可能包含有數字，空白字元，大寫英文字母（Q、A、Z除外），標點符號（`除外）。
+// 輸出說明
+   對每一列中的每個字元，請輸出在鍵盤（如上圖）上其左邊一個位置的字元。但是輸入中的空白字元，輸出時亦請輸出空白字元。
+// Ex. O S, GOMR YPFSU/URD. ,U [JPMR MI,NRT OD 8346333
+       -> I AM FINE TODAY.YES, MY PHONE NUMBER IS 7235222
+----------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+string t = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
+int main() {
+    char c;
+    while (cin.get(c)) {
+        if (c == ' ' || c == '\n') cout << c;
+        else {
+            int pos = t.find(c);
+            cout << t[pos - 1];
+        }
+    }
+    return 0;
+}
