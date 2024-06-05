@@ -1,0 +1,40 @@
+// b838
+// 小明輸入 3×((3+5)×4-(2×2))，程式輸出84。但是，這個程式只能用來計算「正確」的輸入，也就是式子中的括號必須成對而且先出現左括號再出現右括號。
+   請你寫一個程式判斷一個式子中的括號是否正確，若正確的話，請輸出式子中有幾對括號，若錯誤的話，請輸出0。
+----------------------------------------------------------
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+int main() {
+    //讀取問題數量 
+    int t;
+    cin >> t;
+    //開始處理括號問題 
+    while (t--) {
+        //讀取括號組&準備前置變數 
+        string s;
+        cin >> s;
+        stack<char> up;    //紀錄(出現次數 
+        bool valid = true; // 檢驗括號組是否有效 
+        int ans = 0;       //有效括號組合數         
+        //處理括號問題
+        for (auto c : s) {
+            if (c == '(')    up.push('(');    //讀到 ( 
+            else {                            //讀到 ) 
+                //檢查up變數是否還有 (
+                if (!up.empty() && up.top() == '(') {
+                    ans++;
+                    up.pop();
+                }
+                else {    //up變數 ( 用完的情況, ) 太多 
+                    valid = false;
+                    break;
+                }
+            }
+        }
+        // ( 太多的情況
+        if (!up.empty())    valid = false;
+        cout << (valid ? ans : 0) << "\n";
+    }
+}
