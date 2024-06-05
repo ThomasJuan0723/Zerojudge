@@ -1,0 +1,44 @@
+// J121
+// "替換密碼"將每個字母的所有出現更改為其他字母。所有字母的替代品必須不同。對於某些字母，替代字母可能與原始字母一致。
+   例如，將所有字母往下更改一個順位，並將"Z"更改為"A"，就能把訊息"VICTORIOUS"，變成"WJDUPSJPVT"。
+// "排列密碼"對訊息的字母做一些排列。例如，將排列 [2, 1, 5, 4, 3, 7, 6, 10, 9, 8] 使用在訊息"VICTORIOUS"，就會得到訊息"IVOTCIRSUO"。
+// 使用上述密碼組合把訊息"VICTORIOUS"，變成訊息"JWPUDJSTVP"。
+// 輸入包含多組測試資料，每組測試資料兩行，第一行包含刻在石板上的文本
+   第二行包含考古學家猜測的加密訊息，所有輸入皆為大寫英文字母，兩行訊息長度相等且長度不超過100
+// 對於每組測試資料輸出一行，如果猜測可能正確，請輸出 YES，否則，請輸出 NO
+// Ex. JWPUDJSTVP
+       VICTORIOUS
+       MAMA
+       ROME
+       HAHA
+       HEHE
+       AAA
+       AAA
+       NEERCISTHEBEST
+       SECRETMESSAGES
+    -> YES
+       NO
+       YES
+       YES
+       NO
+---------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+using namespace std;
+#define ALL(x) x.begin(),  x.end()
+
+int main() {
+    string s1, s2;
+    while (cin >> s1 >> s2) {
+        vector<int> v1(26, 0), v2(26, 0);
+        // 使用 for each 讀字串
+        for (auto c : s1)    v1[c - 'A']++;
+        for (auto c : s2)    v2[c - 'A']++;
+        sort(ALL(v1));
+        sort(ALL(v2));
+        cout << (v1 == v2 ? "YES" : "NO") << "\n";
+    }
+    return 0;
+}
