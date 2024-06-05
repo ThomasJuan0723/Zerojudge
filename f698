@@ -1,0 +1,38 @@
+// f698
+// 「後序表示法」，把運算子放在運算元的後面，一樣不需要括號就可以指定不同的運算順序：
+    1 2 3 × + = 7
+    1 2 + 3 × = 9
+    但是它只要使用「堆疊」就可以很簡單的完成求值動作。
+------------------------------------------------------
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+int main() {
+    //前置變數宣告
+    string ops = "+-*/";    //運算符號
+    stack<int> num;            //儲存數字的堆疊變數
+    string s;
+    while (cin >> s) {
+        int op = ops.find(s);
+        if (op == -1) {        //讀取值為數字
+            num.push(stoi(s));    //string轉為int儲存
+        }
+        else {                    //讀取值為運算子
+            int n2 = num.top(); num.pop();
+            int n1 = num.top(); num.pop();
+            switch (op) {
+            case 0:
+                num.push(n1 + n2);    break;
+            case 1:
+                num.push(n1 - n2);  break;
+            case 2:
+                num.push(n1 * n2);  break;
+            default:
+                num.push(n1 / n2);
+            }
+        }
+    }
+    cout << num.top();
+    return 0;
+} 
