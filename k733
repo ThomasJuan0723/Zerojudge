@@ -1,0 +1,62 @@
+// k733
+// 你拿到一個磁帶和一串指令。磁帶上的指針初始位置為 10，我們將其表示為 T10。指令是一個由多個 T 和 loop 指令組成的字串，每個指令都會影響指針的移動。
+   T 指令的格式為 Txx，其中 xx 是兩位數的整數（10~99），代表指針從當前位置移動到 xx 所指示的位置。
+   除了 T 指令外，還有一個 loop 指令結構，其格式為 Lx...E，其中 x 是一位數的整數（1~9）。loop 指令允許重複執行一系列指令。
+   loop 指令的開始標記為 Lx，結束標記為 E，指令序列位於這兩個標記之間。loop 指令可以嵌套，也就是說，一個 loop 指令的內部可以包含其他的 loop 指令。保證所有 loop 指令內一定會有至少一個 T 指令。
+   請寫一個程式，根據給定的指令串，計算指針總共移動的距離。
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+
+long long loop(int& head, int& tail);  // 遞迴副程式
+string s0;  // 磁軌命令
+int tape = 0;  // 磁軌命令字串的指標
+
+int main() {
+    int h, t;           // h: head  t: tail
+    long long walk = 0; // 紀錄總移動距離的變數
+    cin >> s0;
+    walk = loop(h, t);         // 透過副程式計算移動距離
+    walk = walk + abs(h - 10); // 計算距離扣除 最小位置為10
+    cout << walk;
+    return 0;
+}
+
+long long loop(int& head, int& tail) {
+    // 副程式資料初始化 walk: 移動距離 subwalk: 迴圈(Lx..E)的移動距離
+    long long walk = 0, subwalk;
+    int num, h, t;
+    head = tail = -1;
+
+    while (1) {
+        // 結束點1: 指標tape是否等於磁軌字串命令的長度
+        if (tape == s0.size()) return walk;
+        // 命令處理
+        if (s0[tape] == 'T') { // T命令
+            num = stoi(s0.substr(tape + 1, 2)); // 取得位置
+            tape = tape + 3;   // T命令 指標往後移3格
+            if (tail == -1)    // 初次執行判斷
+                head = num;    // 把位置數值給head
+            else               // 非初次執行判斷
+                walk = walk + abs(num - tail);  // 取得移動距離
+            tail = num;
+        }
+        else if (s0[tape] == 'L') { // L命令 
+            num = stoi(s0.substr(tape +1, 1));  // 取得迴圈執行次數
+            tape = tape + 2;       // L命令 指標後移2格
+            subwalk = loop(h, t);  // 透過遞迴呼叫算出迴圈命令中的移動距離
+            if (tail == -1)        // 初次執行判斷
+                head = h;    
+            else               
+                walk = walk + abs(h - tail);  // 迴圈外 T 命令移動到迴圈內 T 命令位置
+            tail = t;
+            // 把迴圈內移動距離加回總移動距離
+            walk = walk + subwalk * num + abs(t - h) * (num - 1);
+        }  // T10L2T15T18E
+        else {  // E命令
+            tape++;        // E命令 指標往後移1格
+            return walk;   // 回傳遞迴內總移動距離
+        }
+    }
+}
