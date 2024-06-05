@@ -1,0 +1,42 @@
+// d221
+// 做加法要付出的代價（cost） 定義為這2個數的總和，所以要加 1 和 10 所需付出的代價為 11 。假如你想要加 1, 2 和 3，那麼有以下幾種方法：
+   1 + 2 = 3, cost = 3
+   3 + 3 = 6, cost = 6
+   Total = 9
+
+   1 + 3 = 4, cost = 4
+   2 + 4 = 6, cost = 6
+   Total = 10
+
+   2 + 3 = 5, cost = 5
+   1 + 5 = 6, cost = 6
+   Total = 11
+-------------------------------------------------------------------
+#include<iostream>
+#include<queue>
+using namespace std;
+int main() {
+    int N;
+    while (cin >> N && N) {
+        //宣告儲存數字的容器
+        //priority_queue<變數型態, 容器類型, 排列方式>
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (int i = 0; i < N; i++) {
+            int x;
+            cin >> x;
+            pq.push(x);
+        }
+        //加總處理
+        long long sum, cost = 0;
+        while (pq.size() != 1) {
+            //計算sum
+            sum = pq.top();          pq.pop();
+            sum = sum + pq.top(); pq.pop();
+            pq.push(sum);
+            //計算cost
+            cost = cost + sum;
+        }
+        //印出cost
+        cout << cost << "\n";
+    }
+}
