@@ -18,25 +18,25 @@
 #include <string>
 using namespace std;
 
-int n; //木塊數量
+int n; 
 vector<int> v[25];//0<n<25
 
-//void 無回傳值的宣告
-void find_block(int b, int& p, int& h);//找木塊位置
-void clear_above(int p, int h);//指定木塊之上其他木塊
-void pile_over(int p1, int h, int p2);//移動韓木塊以及其以上的所有木塊
+
+void find_block(int b, int& p, int& h);
+void clear_above(int p, int h);
+void pile_over(int p1, int h, int p2);
 void show();
 
 int main() {
     string s1, s2;
     int a, b, pa, pb, ha, hb;
     while (cin >> n) {
-        //木塊位置初始化
+        
         for (int i = 0; i < n; i++) {
             v[i].clear();
             v[i].push_back(i);
         }
-        //執行命令
+        
         while (cin >> s1 && s1 != "quit") {
             cin >> a >> s2 >> b;
             find_block(a, pa, ha);
@@ -48,12 +48,11 @@ int main() {
             }
 
         }
-        show();//顯示結果
+        show();
     }
     return 0;
 }
 
-//副程式：找木塊位置
 void find_block(int b, int& p, int& h) {
     for (p = 0; p < n; p++) {
         for (h = 0; h < v[p].size(); h++) {
@@ -61,25 +60,25 @@ void find_block(int b, int& p, int& h) {
         }
     }
 }
-//副程式：指定木塊之上其他木塊歸位
+
 void clear_above(int p, int h) {
     for (int i = v[p].size() - 1; i > h; i--) {
         int b = v[p][i];
-        v[b].push_back(b);//木塊歸位
-        v[p].pop_back();//歸位的木塊清除
+        v[b].push_back(b);
+        v[p].pop_back();
     }
     return;
 }
-//副程式：移動韓木塊以及其以上的所有木塊
+
 void pile_over(int p1, int h, int p2) {
     v[p2].insert(v[p2].end(), v[p1].begin() + h, v[p1].end());
     v[p1].erase(v[p1].begin() + h, v[p1].end());
     return;
 }
-//副程式：顯示當前木塊
+
 void show() {
     for (int i = 0; i < n; i++) {
-        //讀取木塊位置
+        
         cout << i << ":";
         for (int j = 0; j < v[i].size(); j++) {
             cout << " " << v[i][j];
