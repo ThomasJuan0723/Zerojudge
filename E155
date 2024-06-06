@@ -11,18 +11,18 @@ using namespace std;
 int main() {
     int n;
     while (cin >> n && n) {
-        //準備卡牌堆
+        
         queue<int> q;
         for (int i = 1; i <= n; i++)    q.push(i);
-        //依照規則進行處理
+        
         cout << "Discarded cards: ";
-        bool first = true; //是否第一次丟卡的開關
+        bool first = true; 
         while (q.size() > 1) {
-            //丟牌堆第一張卡
+            
             if (first)   first = false;
             else         cout << ", ";
             cout << q.front(); q.pop();
-            //把牌堆第一張卡放到卡堆最後 
+            
             q.push(q.front()); q.pop();
         }
         cout << "\n";
