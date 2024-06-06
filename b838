@@ -6,34 +6,31 @@
 #include<string>
 #include<stack>
 using namespace std;
-int main() {
-    //讀取問題數量 
+int main() { 
     int t;
     cin >> t;
-    //開始處理括號問題 
-    while (t--) {
-        //讀取括號組&準備前置變數 
+     
+    while (t--) { 
         string s;
         cin >> s;
-        stack<char> up;    //紀錄(出現次數 
-        bool valid = true; // 檢驗括號組是否有效 
-        int ans = 0;       //有效括號組合數         
-        //處理括號問題
+        stack<char> up;   
+        bool valid = true; 
+        int ans = 0;               
+       
         for (auto c : s) {
-            if (c == '(')    up.push('(');    //讀到 ( 
-            else {                            //讀到 ) 
-                //檢查up變數是否還有 (
+            if (c == '(')    up.push('(');    
+            else {                            
                 if (!up.empty() && up.top() == '(') {
                     ans++;
                     up.pop();
                 }
-                else {    //up變數 ( 用完的情況, ) 太多 
+                else {    
                     valid = false;
                     break;
                 }
             }
         }
-        // ( 太多的情況
+        
         if (!up.empty())    valid = false;
         cout << (valid ? ans : 0) << "\n";
     }
