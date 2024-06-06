@@ -11,7 +11,7 @@ using namespace std;
 
 int t[100001] = { 0 };
 int main() {
-    //查詢表製作
+    
     for (int n = 1; n <= 100000; n++) {
         int y = n, x = n;
         while (x > 0) {
@@ -21,7 +21,7 @@ int main() {
         if (y > 100000) continue;
         if (t[y] == 0)  t[y] = n;
     }
-    //解題
+    
     int T, m;
     cin >> T;
     while (T--) {
