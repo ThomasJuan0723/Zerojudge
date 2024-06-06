@@ -34,17 +34,17 @@ int main() {
     int N, Q;
     while (cin >> N >> Q && N != 0) {
         printf("CASE# %d:\n", ++kase);
-        //讀取大理石並排序
+        
         vector<int> v(N);
         for (int i = 0; i < N; i++) cin >> v[i];
         sort(ALL(v));
-        //回答Q個問題
+       
         while (Q--) {
             int f;
             cin >> f;
-            //lower_bound 輸出為指標 減去v.begin() 位址轉換為數值
+            
             int p = lower_bound(ALL(v), f) - v.begin();
-            if (p < N && v[p] == f) //輸出一行
+            if (p < N && v[p] == f) 
                 printf("%d found at %d\n", f, (p + 1));
             else
                 printf("%d not found\n", f);
