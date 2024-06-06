@@ -5,37 +5,35 @@
 #include<iostream>
 #include<stack>
 #include<algorithm>
-#include<climits>    //取得INT_MAX定義 
+#include<climits>     
 using namespace std;
-//最大樹木數量first:存樹木座標 second存樹木高度 
+
 pair<int, int> T[100002];
-//數目最多100000棵 左右邊界各+1 
+ 
 int main() {
     int N, L;
-    //total:砍倒樹木數量計數 height:砍倒最高樹木高度 
     int total = 0, height = 0;
-    stack<pair<int, int>> s;        //紀錄最左側未砍倒的樹木
-    //繪製林場 
+    stack<pair<int, int>> s;        
+   
     cin >> N >> L;
-    T[0].first = 0;            //林場左側邊緣 
+    T[0].first = 0;            
     T[0].second = INT_MAX;
-    for (int i = 1; i <= N; i++) cin >> T[i].first; //讀取樹木座標
-    for (int i = 1; i <= N; i++) cin >> T[i].second;//讀取樹木高度
+    for (int i = 1; i <= N; i++) cin >> T[i].first; 
+    for (int i = 1; i <= N; i++) cin >> T[i].second;
     T[N + 1].first = L;
-    //開始處理砍樹問題
-    s.push(T[0]);    //加入左邊界
+    
+    s.push(T[0]);    
     for (int i = 1; i <= N; i++) {
-        //檢查樹木往左右砍
         bool left = T[i].first - T[i].second >= s.top().first;
         bool right = T[i].first + T[i].second <= T[i + 1].first;
         if (left || right) {
-            total++;                                //可砍樹木+1 
-            height = max(height, T[i].second);        //取得砍到最高樹木 
-            //檢查左側未砍倒樹木是否可以砍倒 
+            total++;                                
+            height = max(height, T[i].second);        
+            
             while(s.top().first + s.top().second <= T[i + 1].first) {
-                total++;                                //可砍樹木+1 
-                height = max(height, s.top().second);        //取得砍到最高樹木 
-                s.pop();        //刪除已經砍倒的未砍倒樹木 
+                total++;                                
+                height = max(height, s.top().second);        
+                s.pop();        
             }
         }
         else {
